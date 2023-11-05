@@ -70,14 +70,14 @@ def predict_and_save(image_folder, model_path,result_path):
         writer.writerows(data)
 
 if __name__ == "__main__":
-    #os_path c# 에서 받아서 경로 적용하기
-
-    model_path = 'C:/MS_TeamProjectTest/Application/Pose_Detection/bin/x64/Debug/best.pt'
-    GoodPose_image_path = 'C:/MS_TeamProjectTest/Application/Pose_Detection/bin/x64/Debug/GoodPose/image/goodPose.jpg'
-    GoodPose_keypoints_path = 'C:/MS_TeamProjectTest/Application/Pose_Detection/bin/x64/Debug/KeyPoints/GoodPose'
-
-    UserPose_image_path = 'C:/MS_TeamProjectTest/Application/Pose_Detection/bin/x64/Debug/UserPose/image/UserPose.jpg'
-    UserPose_keypoints_path = 'C:/MS_TeamProjectTest/Application/Pose_Detection/bin/x64/Debug/KeyPoints/UserPose'
+ c# 에서 받아서 경로 적용하기
+    if len(sys.argv) != 6:
+        raise ValueError("This script expects 5 arguments: model_path, GoodPose_image_path, GoodPose_keypoints_path, UserPose_image_path, UserPose_keypoints_path")
+    model_path = sys.argv[1]
+    GoodPose_image_path = sys.argv[2]
+    GoodPose_keypoints_path = sys.argv[3]
+    UserPose_image_path = sys.argv[4]
+    UserPose_keypoints_path = sys.argv[5]
 
     if not os.path.exists(GoodPose_keypoints_path + "/result_points.csv "):
         predict_and_save(GoodPose_image_path, model_path, GoodPose_keypoints_path)
