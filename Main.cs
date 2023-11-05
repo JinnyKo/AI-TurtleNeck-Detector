@@ -22,7 +22,7 @@ using OpenCvSharp.Internal.Vectors;
 
 namespace Pose_Detection
 {
-    // 상속 클래스 변경 (Metro Reference 뭐 안맞는거 같음)
+ 
     public partial class Form1 : MetroFramework.Forms.MetroForm
     {
         Camera camera = new Camera();
