@@ -90,65 +90,7 @@ namespace Pose_Detection
             }
             return true; // 최근 n개의 값이 모두 targetValue와 같을 경우 true 반환
         }
-        private void Alarm()
-        {
-            var pose_num = dp.Cal_UserPose(UserPose_keypoint_path);
-            pose.Add(pose_num);
-            DateTime currentTime = DateTime.Now;
-            int mode = find_mode();
-            string PoseText ="";
-
-            if (pose_num == -1)
-            {
-                PoseText = "탐지 불가";
-            }
-            else if(pose_num == 0)
-            {
-                PoseText = "어깨 틀어짐";
-            }
-            else if (pose_num == 1)
-            {
-                PoseText = "바른 자세";
-            }
-            else if (pose_num == 2)
-            {
-                PoseText = "거북목";
-            }
-
-            AddListViewItem((num++).ToString(), currentTime.ToString(), PoseText, dp.shoulder_slope.ToString());
-
-            if (pose.Count > 10)
-            {
-                pose.RemoveAt(0);
-            }
-            pose.Add(pose_num);
-
-            if (mode == 1 && Count_Pose(pose,3,0)) 
-            {
-                MessageBox.Show("H Mode: 어깨 자세 불량");
-            }
-            else if (mode == 2 && Count_Pose(pose,5,0))
-            {
-                MessageBox.Show("M Mode: 어깨 자세 불량");
-            }
-            else if (mode == 3 && Count_Pose(pose, 7,0))
-            {
-                MessageBox.Show("W Mode: 어깨 자세 불량");
-            }
-
-            if (mode == 1 && Count_Pose(pose, 3, 2))
-            {
-                MessageBox.Show("H Mode: 거북목 자세 불량");
-            }
-            else if (mode == 2 && Count_Pose(pose, 5, 2))
-            {
-                MessageBox.Show("M Mode:거북목 자세 불량");
-            }
-            else if (mode == 3 && Count_Pose(pose, 7, 2))
-            {
-                MessageBox.Show("W Mode:거북목 자세 불량");
-            }
-        }
+      
         private void LoadCamereNames()
         {
             button_Pause.Enabled = false;
@@ -200,6 +142,41 @@ namespace Pose_Detection
                 }
             }
         }
+        private void Alarm()
+       {
+            var pose_num = dp.Cal_UserPose(UserPose_keypoint_path);
+            pose.Add(pose_num);
+            DateTime currentTime = DateTime.Now;
+            int mode = find_mode();
+            string[] poseTexts = { "어깨 틀어짐", "바른 자세", "거북목" };
+            string PoseText = pose_num >= 0 && pose_num < poseTexts.Length ? poseTexts[pose_num] : "탐지 불가";
+        
+            AddListViewItem((num++).ToString(), currentTime.ToString(), PoseText, dp.shoulder_slope.ToString());
+        
+            if (pose.Count > 10)
+            {
+                pose.RemoveAt(0);
+            }
+        
+            // 자세 불량 메시지 표시 로직을 함수로 추출
+            CheckAndDisplayPoorPosture(mode, pose_num, "어깨 자세 불량", 0);
+            CheckAndDisplayPoorPosture(mode, pose_num, "거북목 자세 불량", 2);
+       }
+         
+         private void CheckAndDisplayPoorPosture(int mode, int pose_num, string message, int targetPose)
+         {
+             int[] modeThresholds = { 3, 5, 7 }; // H, M, W 모드에 따른 임계값
+             string[] modeNames = { "H Mode", "M Mode", "W Mode" };
+         
+             if (mode >= 1 && mode <= 3)
+             {
+                 int threshold = modeThresholds[mode - 1];
+                 if (Count_Pose(pose, threshold, targetPose))
+                 {
+                     MessageBox.Show($"{modeNames[mode - 1]}: {message}");
+                 }
+             }
+         }
         private void Button_Start_Click(object sender, EventArgs e)
         {
             if (isCapturing)
