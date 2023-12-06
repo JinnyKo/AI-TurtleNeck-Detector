@@ -93,7 +93,7 @@ namespace Pose_Detection
             }
             else //완벽한 예외 처리 아님 
             {
-                grade = 2; //얼굴이 엄청 들이미러 질때
+                grade = 2;
             }
             return grade;
         }
