@@ -35,7 +35,7 @@ namespace Pose_Detection
             try
             {
                 video = new VideoCapture(CamIndex);
-                video.FrameWidth = 640; //고정 
+                video.FrameWidth = 640; //fixed size
                 video.FrameHeight = 480;
             }
             catch (Exception ex)
@@ -87,8 +87,8 @@ namespace Pose_Detection
                 ShowFrame(frame, picture);
 
                 //frame.Dispose();    // frame = 가장 마지막 가져온 이미지 데이터이므로 매 이미지 갱신시 마다 Dispose해줘야 함
-                                      //-> 근데 여기서 하면 ShowFrame이 이미지 변환하기 전에 해제해버림
-                Application.DoEvents(); // 마법의 문장
+                                     
+                Application.DoEvents();
                 Thread.Sleep(100);
             }
 
@@ -108,15 +108,15 @@ namespace Pose_Detection
                 {
                     picture.Image?.Dispose();       // 기존에 픽쳐박스에 있던 이미지 해제 (없으면 해제 안함)
                     picture.Image = bitmapFrame;
-                    // 그래서 여기서 함
+            
                     frame.Dispose();
                 });
             }
             else
             {
-                picture.Image?.Dispose();       // 기존에 픽쳐박스에 있던 이미지 해제 (없으면 해제 안함)
+                picture.Image?.Dispose();     
                 picture.Image = bitmapFrame;
-                // 그래서 여기서 함
+              
                 frame.Dispose();
             }
         }
