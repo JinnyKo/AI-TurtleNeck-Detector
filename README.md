@@ -24,7 +24,7 @@
 ![image](https://github.com/JinnyKo/AI-TurtleNeck-Detector/assets/93627969/94dd0543-94c2-4ddf-a283-711d5b4e1e69) 
 
 ## 본 프로젝트에서 적용한 거북목 판별 방법 : "변화율" 판단 
-![image](https://github.com/JinnyKo/AI-TurtleNeck-Detector/assets/93627969/b6b8adf7-a085-4d35-bc2e-dbbac2f129ad)
+
 
 > **Challenge 1**   
 웹캠과 피사체의 거리, 피사체 별 신체적인 크기 는 전부 다르기 때문에, 이를 절대적인 변화량에 맞추어 거북목을 탐지하는 것엔 잦은 오류가 있었습니다.  따라서 어깨 좌표, 목 끝 점 좌표 등을 사용하여 바른 자세와 거북목 자세일 때의 일정 변화율을 측정하여 거북의 지표로 사용하였습니다. 
